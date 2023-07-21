@@ -1,6 +1,47 @@
+import { useRef, useState } from 'react';
+import { useRouter } from 'next/router';
 import BaseLayout from 'components/BaseLayout';
 
 export default function OfferNew() {
+  const [formProcessing, setFormProcessing] = useState(false);
+  const [error, setError] = useState(false);
+  const offerForm = useRef();
+  const router = useRouter();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (formProcessing) return;
+
+    setError(null);
+    setFormProcessing(true);
+
+    const form = new FormData(offerForm.current);
+    const payload = {
+      title: form.get('title'),
+      category: form.get('category'),
+      mobile: form.get('phone'),
+      price: form.get('price'),
+      description: form.get('description'),
+      location: form.get('location')
+    };
+
+    const response = await fetch('/api/offers', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (response.ok) {
+      router.push('/offers/thanks');
+    } else {
+      const payload = await response.json();
+      setFormProcessing(false);
+      setError(payload.error?.details[0]?.message);
+    }
+  };
+
   return (
     <BaseLayout>
       <section className="text-gray-600 body-font relative">
@@ -14,7 +55,7 @@ export default function OfferNew() {
             </p>
           </div>
           <div className="lg:w-1/2 md:w-2/3 mx-auto">
-            <form className="flex flex-wrap -m-2">
+            <form className="flex flex-wrap -m-2" ref={offerForm} onSubmit={handleSubmit}>
               <div className="p-2 w-full">
                 <div className="relative">
                   <label htmlFor="category" className="leading-7 text-sm text-gray-600">
@@ -98,9 +139,16 @@ export default function OfferNew() {
                 </div>
               </div>
               <div className="p-2 w-full">
-                <button className="disabled:opacity-50 flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-                  Submit offer
+                <button
+                  disabled={formProcessing}
+                  className="disabled:opacity-50 flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                  {formProcessing ? 'Please wait...' : 'Submit offer'}
                 </button>
+                {error && (
+                  <div className="flex justify-center w-full my-5">
+                    <span className="w-full text-red-600">Offer not added: {error}</span>
+                  </div>
+                )}
               </div>
             </form>
           </div>
