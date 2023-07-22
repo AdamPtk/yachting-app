@@ -1,16 +1,37 @@
+import { useRouter } from 'next/router';
 import BaseLayout from 'components/BaseLayout';
+import getRecentOffers from 'services/offers/getRecent';
+import getOffer from 'services/offers/get';
 
-export default function OfferPage() {
-  const offer = {
-    title: 'Sample name of boat',
-    category: 'rent',
-    description:
-      'This 260 SS has been meticulously maintained and is in excellent condition! We always keep it in dry storage when not in use. Its very clean, and ready for the summer!',
-    location: 'Berlin',
-    price: 123,
-    mobile: '+48 790 678 987'
+export const getStaticPaths = async () => {
+  const offers = await getRecentOffers(6);
+
+  return {
+    paths: offers.map((offer) => ({ params: { id: String(offer.id) } })),
+    fallback: true
   };
+};
 
+export const getStaticProps = async ({ params }) => {
+  const offer = await getOffer(params.id);
+
+  return {
+    revalidate: 10,
+    props: {
+      offer
+    }
+  };
+};
+
+export default function OfferPage({ offer }) {
+  const router = useRouter();
+  if (router.isFallback) {
+    return (
+      <BaseLayout>
+        <div>Loading...</div>
+      </BaseLayout>
+    );
+  }
   return (
     <BaseLayout>
       <section className="text-gray-600 body-font overflow-hidden">
