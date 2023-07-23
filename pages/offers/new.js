@@ -1,12 +1,21 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import BaseLayout from 'components/BaseLayout';
+import { useSession } from 'next-auth/react';
 
 export default function OfferNew() {
   const [formProcessing, setFormProcessing] = useState(false);
   const [error, setError] = useState(false);
   const offerForm = useRef();
   const router = useRouter();
+  const { data: session, status } = useSession();
+  const loading = status === 'loading';
+
+  useEffect(() => {
+    if (!session && !loading) {
+      router.push('/user/signin');
+    }
+  }, [session, loading]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,6 +50,14 @@ export default function OfferNew() {
       setError(payload.error?.details[0]?.message);
     }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!loading && !session) {
+    return <div>Redirecting...</div>;
+  }
 
   return (
     <BaseLayout>

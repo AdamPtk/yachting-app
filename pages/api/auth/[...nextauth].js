@@ -2,7 +2,7 @@ import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import authorizeUser from 'services/users/authorize';
 
-export default NextAuth({
+export const authOptions = {
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. 'Sign in with...')
@@ -51,5 +51,8 @@ export default NextAuth({
 
       return session;
     }
-  }
-});
+  },
+  secret: process.env.NEXTAUTH_SECRET
+};
+
+export default NextAuth(authOptions);
