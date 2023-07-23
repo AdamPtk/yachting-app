@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import Link from 'next/link';
+import { signOut, useSession } from 'next-auth/react';
 import classNames from 'classnames';
 
 const TopNavigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { data: session, status } = useSession();
+  const loading = status === 'loading';
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -39,6 +42,20 @@ const TopNavigation = () => {
             </a>
           </Link>
         </div>
+        {session && (
+          <button
+            onClick={() => signOut('/')}
+            className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white">
+            <span>Logout</span>
+          </button>
+        )}
+        {!session && !loading && (
+          <Link href="/user/signin">
+            <a className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white">
+              <span>Sign in</span>
+            </a>
+          </Link>
+        )}
       </div>
     </nav>
   );

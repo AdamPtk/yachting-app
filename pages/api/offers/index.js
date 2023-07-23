@@ -12,7 +12,6 @@ export default async (req, res) => {
     case 'POST': {
       try {
         const payload = req.body;
-        console.log('payload', payload);
         const offer = await createOffer(payload);
         res.status(200).json({ status: 'created', offer });
       } catch (error) {
