@@ -20,3 +20,7 @@ Content-Type: application/json
   "password": "123123123",
   "fullName": "Will Smith"
 }
+
+###
+
+GET http://localhost:3000/api/offers/paginate?category=rent

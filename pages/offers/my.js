@@ -42,7 +42,7 @@ export default function MyOffers({ offers }) {
                   <div className="bg-gray-100 p-6 rounded-lg h-full hover:shadow-lg transition-all">
                     {offer.status === 'inactive' ? (
                       <span className="bg-indigo-500 text-white rounded-lg text-sm py-1 px-3">
-                        Inactive
+                        Waiting for approval
                       </span>
                     ) : (
                       <span className="bg-blue-400 text-white rounded-lg text-sm py-1 px-3">
