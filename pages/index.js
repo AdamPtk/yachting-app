@@ -6,7 +6,7 @@ import getRecentOffers from 'services/offers/getRecent';
 import { jsonFetcher } from 'utils';
 
 export const getStaticProps = async () => {
-  const offers = await getRecentOffers(5);
+  const offers = await getRecentOffers(12);
   return {
     props: { offers }
   };
@@ -35,7 +35,7 @@ export default function Home({ offers }) {
             {data.map((offer) => (
               <div key={offer.id} className="xl:w-1/4 md:w-1/2 p-4 cursor-pointer">
                 <Link href={`/offers/${offer.id}`}>
-                  <div className="bg-gray-100 p-6 rounded-lg h-full">
+                  <div className="bg-gray-100 p-6 rounded-lg h-full hover:shadow-lg transition-all">
                     <Image
                       className="h-40 rounded w-full object-cover object-center mb-6"
                       src="/boat.jpg"

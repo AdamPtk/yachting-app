@@ -6,7 +6,7 @@ import { getServerSession } from 'next-auth/next';
 export default async (req, res) => {
   switch (req.method) {
     case 'GET': {
-      const offers = await getRecentOffers(6);
+      const offers = await getRecentOffers(12);
       res.status(200).json(offers);
 
       break;

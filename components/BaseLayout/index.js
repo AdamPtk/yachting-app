@@ -27,7 +27,7 @@ const TopNavigation = () => {
       </Link>
       <button
         onClick={toggleMenu}
-        className="text-white inline-flex p-3 hover:bg-gray-900 rounded lg:hidden ml-auto hover:text-white outline-none nav-toggler">
+        className="text-white inline-flex p-3 hover:bg-gray-900 rounded lg:hidden ml-auto hover:text-white outline-none nav-toggler transition-all">
         Menu
       </button>
       <div
@@ -37,14 +37,14 @@ const TopNavigation = () => {
         id="navigation">
         <div className="lg:inline-flex lg:flex-row lg:ml-auto lg:w-auto w-full lg:items-center items-start  flex flex-col lg:h-auto">
           <Link href="/offers/new">
-            <a className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white">
+            <a className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white transition-all">
               <span>Submit offer</span>
             </a>
           </Link>
         </div>
         {session && (
           <Link href="/offers/my">
-            <a className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white">
+            <a className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white transition-all">
               <span>My offers</span>
             </a>
           </Link>
@@ -52,13 +52,13 @@ const TopNavigation = () => {
         {session && (
           <button
             onClick={() => signOut('/')}
-            className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white">
+            className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white transition-all">
             <span>Logout</span>
           </button>
         )}
         {!session && !loading && (
           <Link href="/user/signin">
-            <a className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white">
+            <a className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-gray-400 items-center justify-center hover:bg-gray-900 hover:text-white transition-all">
               <span>Sign in</span>
             </a>
           </Link>
